@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:optimus_case/services/local/theme_manager.dart';
-import 'package:optimus_case/utils/extensions.dart/text_style_extension.dart';
+import 'package:optimus_case/utils/extensions.dart/theme_extension.dart';
 import 'package:optimus_case/utils/locator.dart';
 
 class ReusableAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String? title;
-  final double height;
   final void Function()? onBackPressed;
   final Widget? trailing;
   final Widget? leading;
@@ -18,7 +16,6 @@ class ReusableAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.title,
     this.center,
     super.key,
-    this.height = 60,
     this.onBackPressed,
     this.trailing,
     this.leading,
@@ -32,58 +29,66 @@ class ReusableAppBar extends StatelessWidget implements PreferredSizeWidget {
           ? SystemUiOverlayStyle.dark
           : SystemUiOverlayStyle.light,
     );
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.grey,
-      ),
-      padding: const EdgeInsets.symmetric(horizontal: 8),
+
+    return Material(
       child: SafeArea(
-        left: false,
-        right: false,
-        bottom: false,
-        child: IntrinsicHeight(
-          child: Stack(
-            alignment: Alignment.center,
-            children: [
-              Row(
-                children: [
-                  if (leading != null)
-                    leading!
-                  else if (ModalRoute.of(context)?.canPop ?? false)
-                    if (showBackButton)
-                      IconButton(
-                        icon: SvgPicture.asset(
-                          'assets/back.svg',
-                          height: 24,
-                        ),
-                        onPressed: onBackPressed,
-                        splashRadius: 10,
-                      ),
-                  if (trailing != null) ...[
-                    const Spacer(),
-                    trailing!,
-                  ],
-                ],
+        child: Container(
+          decoration: BoxDecoration(
+            color: context.themeColors.primary,
+            boxShadow: const [
+              BoxShadow(
+                blurRadius: 100.0,
+                offset: Offset(1, 4),
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 40),
-                child: AnimatedSize(
-                  duration: const Duration(milliseconds: 200),
-                  alignment: Alignment.centerLeft,
-                  child: title != null
-                      ? Text(
-                          title!,
-                          style: context.textStyles.regular,
-                          textAlign: TextAlign.center,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        )
-                      : center != null
-                          ? center!
-                          : const SizedBox.shrink(),
-                ),
-              )
             ],
+            borderRadius: BorderRadius.vertical(
+              bottom: Radius.circular(MediaQuery.of(context).size.width),
+            ),
+          ),
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              return Container(
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(16),
+                    bottomRight: Radius.circular(30),
+                  ),
+                  shape: BoxShape.rectangle,
+                ),
+                width: double.infinity,
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        if (leading != null)
+                          leading!
+                        else if (showBackButton)
+                          IconButton(
+                            icon: const Icon(Icons.arrow_back),
+                            onPressed:
+                                onBackPressed ?? () => Navigator.pop(context),
+                          ),
+                        if (trailing != null) trailing!,
+                      ],
+                    ),
+                    if (title != null) ...[
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: Text(
+                          title!,
+                          style: context.textStyles.bold2,
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ],
+                    if (center != null) center!,
+                  ],
+                ),
+              );
+            },
           ),
         ),
       ),
@@ -91,5 +96,5 @@ class ReusableAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => const Size.fromHeight(kMinInteractiveDimension);
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight + 15);
 }
