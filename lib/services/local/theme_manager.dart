@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:optimus_case/enums/shared_constants.dart';
 import 'package:optimus_case/services/local/shared_preferences_manager.dart';
+import 'package:optimus_case/utils/app_colors.dart';
 import 'package:optimus_case/utils/text_style.dart';
 
 class ThemeManager extends ChangeNotifier {
@@ -32,6 +33,8 @@ class ThemeManager extends ChangeNotifier {
   ThemeData get lightTheme => ThemeData(
         brightness: Brightness.light,
         primarySwatch: Colors.blue,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+        fontFamily: 'Montserrat',
         scaffoldBackgroundColor: Colors.white,
         appBarTheme: const AppBarTheme(
           backgroundColor: Colors.blue,
@@ -45,16 +48,20 @@ class ThemeManager extends ChangeNotifier {
         useMaterial3: true,
         extensions: <ThemeExtension<dynamic>>[
           TextStyles.light(),
+          AppColors.light(),
         ],
       );
 
   ThemeData get darkTheme => ThemeData(
         brightness: Brightness.dark,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+        fontFamily: 'Montserrat',
         primarySwatch: Colors.deepPurple,
         scaffoldBackgroundColor: Colors.black,
         useMaterial3: true,
         extensions: <ThemeExtension<dynamic>>[
           TextStyles.dark(),
+          AppColors.dark(),
         ],
       );
 
