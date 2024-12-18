@@ -9,7 +9,7 @@ class TextStyles extends ThemeExtension<TextStyles> {
   final TextStyle body1;
   final TextStyle body2;
   final TextStyle caption;
-  final TextStyle button;
+  final TextStyle semiBold;
 
   const TextStyles({
     required this.regular,
@@ -20,7 +20,7 @@ class TextStyles extends ThemeExtension<TextStyles> {
     required this.body1,
     required this.body2,
     required this.caption,
-    required this.button,
+    required this.semiBold,
   });
 
   @override
@@ -38,7 +38,7 @@ class TextStyles extends ThemeExtension<TextStyles> {
       body1: TextStyle.lerp(body1, other.body1, t)!,
       body2: TextStyle.lerp(body2, other.body2, t)!,
       caption: TextStyle.lerp(caption, other.caption, t)!,
-      button: TextStyle.lerp(button, other.button, t)!,
+      semiBold: TextStyle.lerp(semiBold, other.semiBold, t)!,
     );
   }
 
@@ -52,7 +52,7 @@ class TextStyles extends ThemeExtension<TextStyles> {
     TextStyle? body1,
     TextStyle? body2,
     TextStyle? caption,
-    TextStyle? button,
+    TextStyle? semiBold,
   }) {
     return TextStyles(
       regular: regular ?? this.regular,
@@ -63,7 +63,7 @@ class TextStyles extends ThemeExtension<TextStyles> {
       body1: body1 ?? this.body1,
       body2: body2 ?? this.body2,
       caption: caption ?? this.caption,
-      button: button ?? this.button,
+      semiBold: semiBold ?? this.semiBold,
     );
   }
 
@@ -108,10 +108,10 @@ class TextStyles extends ThemeExtension<TextStyles> {
           fontWeight: FontWeight.w300,
           color: Colors.grey,
         ),
-        button: TextStyle(
+        semiBold: TextStyle(
           fontSize: 16,
           fontWeight: FontWeight.w600,
-          color: Colors.white,
+          color: Colors.black,
         ),
       );
 
@@ -156,10 +156,10 @@ class TextStyles extends ThemeExtension<TextStyles> {
           fontWeight: FontWeight.w300,
           color: Colors.grey,
         ),
-        button: TextStyle(
+        semiBold: TextStyle(
           fontSize: 16,
           fontWeight: FontWeight.w600,
-          color: Colors.black,
+          color: Colors.white,
         ),
       );
 }

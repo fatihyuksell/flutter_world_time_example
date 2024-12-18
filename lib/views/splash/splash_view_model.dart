@@ -14,8 +14,10 @@ class SplashViewModel extends BaseViewModel {
   ThemeMode get themeMode => _themeManager.themeMode;
 
   String _deviceName = '';
-
   String get deviceName => _deviceName;
+
+  final GlobalKey textFieldKey = GlobalKey();
+  double textFieldHeight = 48.0;
 
   set deviceName(String value) {
     _deviceName = value;
@@ -25,6 +27,7 @@ class SplashViewModel extends BaseViewModel {
   @override
   void onBindingCreated() async {
     await getDeviceInfo();
+    await calculateTextFieldHeight();
   }
 
   Future<void> toggleTheme(ThemeMode mode) async {
@@ -49,9 +52,14 @@ class SplashViewModel extends BaseViewModel {
     }
   }
 
+  Future<void> calculateTextFieldHeight() async {
+    await Future.delayed(const Duration(milliseconds: 100), () {
+      textFieldHeight = 48.0;
+      notify();
+    });
+  }
+
   void onPressedDetails() {
-    navigate(
-      Routes.clocks,
-    );
+    navigate(Routes.clocks);
   }
 }

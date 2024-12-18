@@ -33,7 +33,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         child: Container(
           padding: const EdgeInsets.symmetric(
             horizontal: 24,
-            vertical: 24,
+            vertical: 50,
           ),
           constraints: const BoxConstraints(
             minHeight: 56,
@@ -43,16 +43,17 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               if (leading != null) leading! else const SizedBox.shrink(),
-              Expanded(
-                child: Center(
-                  child: Text(
-                    title ?? '',
-                    style: context.textStyles.regular.copyWith(
-                      color: context.themeColors.text,
+              if (title != null)
+                Expanded(
+                  child: Center(
+                    child: Text(
+                      title ?? '',
+                      style: context.textStyles.regular.copyWith(
+                        color: context.themeColors.text,
+                      ),
                     ),
                   ),
                 ),
-              ),
               if (trailing != null) trailing! else const SizedBox.shrink(),
             ],
           ),

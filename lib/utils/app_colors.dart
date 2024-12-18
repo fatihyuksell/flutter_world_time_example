@@ -6,6 +6,9 @@ class AppColors extends ThemeExtension<AppColors> {
   final Color secondary;
   final Color background;
   final Color text;
+  final Color arrowIconBg;
+  final Color arrowIconBorder;
+  final Color scaffoldBackground;
 
   const AppColors({
     required this.appBarBg,
@@ -13,6 +16,9 @@ class AppColors extends ThemeExtension<AppColors> {
     required this.secondary,
     required this.background,
     required this.text,
+    required this.arrowIconBg,
+    required this.arrowIconBorder,
+    required this.scaffoldBackground,
   });
 
   @override
@@ -25,6 +31,10 @@ class AppColors extends ThemeExtension<AppColors> {
       secondary: Color.lerp(secondary, other.secondary, t)!,
       background: Color.lerp(background, other.background, t)!,
       text: Color.lerp(text, other.text, t)!,
+      arrowIconBg: Color.lerp(arrowIconBg, other.arrowIconBg, t)!,
+      arrowIconBorder: Color.lerp(arrowIconBorder, other.arrowIconBorder, t)!,
+      scaffoldBackground:
+          Color.lerp(scaffoldBackground, other.scaffoldBackground, t)!,
     );
   }
 
@@ -35,6 +45,9 @@ class AppColors extends ThemeExtension<AppColors> {
     Color? secondary,
     Color? background,
     Color? text,
+    Color? arrowIconBg,
+    Color? arrowIconBorder,
+    Color? scaffoldBackground,
   }) {
     return AppColors(
       appBarBg: appBarBg ?? this.appBarBg,
@@ -42,6 +55,9 @@ class AppColors extends ThemeExtension<AppColors> {
       secondary: secondary ?? this.secondary,
       background: background ?? this.background,
       text: text ?? this.text,
+      arrowIconBg: arrowIconBg ?? this.arrowIconBg,
+      arrowIconBorder: arrowIconBorder ?? this.arrowIconBorder,
+      scaffoldBackground: scaffoldBackground ?? this.scaffoldBackground,
     );
   }
 
@@ -51,6 +67,9 @@ class AppColors extends ThemeExtension<AppColors> {
         secondary: Colors.lightBlueAccent,
         background: Colors.white,
         text: Colors.black,
+        arrowIconBg: Color(0xFFD4DEF1),
+        arrowIconBorder: Color(0xFFD4DEF1),
+        scaffoldBackground: Colors.white,
       );
 
   factory AppColors.dark() => const AppColors(
@@ -59,5 +78,8 @@ class AppColors extends ThemeExtension<AppColors> {
         secondary: Colors.purpleAccent,
         background: Colors.black,
         text: Colors.white,
+        arrowIconBg: Color(0xFF293A89),
+        arrowIconBorder: Color(0xFF293A89),
+        scaffoldBackground: Color(0xFF002359),
       );
 }
