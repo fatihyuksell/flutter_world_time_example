@@ -9,6 +9,8 @@ class AppColors extends ThemeExtension<AppColors> {
   final Color arrowIconBg;
   final Color arrowIconBorder;
   final Color scaffoldBackground;
+  final Color timeZoneContainerBorder;
+  final Color timeZoneContainerBg;
 
   const AppColors({
     required this.appBarBg,
@@ -19,6 +21,8 @@ class AppColors extends ThemeExtension<AppColors> {
     required this.arrowIconBg,
     required this.arrowIconBorder,
     required this.scaffoldBackground,
+    required this.timeZoneContainerBorder,
+    required this.timeZoneContainerBg,
   });
 
   @override
@@ -35,6 +39,10 @@ class AppColors extends ThemeExtension<AppColors> {
       arrowIconBorder: Color.lerp(arrowIconBorder, other.arrowIconBorder, t)!,
       scaffoldBackground:
           Color.lerp(scaffoldBackground, other.scaffoldBackground, t)!,
+      timeZoneContainerBorder: Color.lerp(
+          timeZoneContainerBorder, other.timeZoneContainerBorder, t)!,
+      timeZoneContainerBg:
+          Color.lerp(timeZoneContainerBg, other.timeZoneContainerBg, t)!,
     );
   }
 
@@ -48,6 +56,8 @@ class AppColors extends ThemeExtension<AppColors> {
     Color? arrowIconBg,
     Color? arrowIconBorder,
     Color? scaffoldBackground,
+    Color? timeZoneContainerBorder,
+    Color? timeZoneContainerBg,
   }) {
     return AppColors(
       appBarBg: appBarBg ?? this.appBarBg,
@@ -58,6 +68,9 @@ class AppColors extends ThemeExtension<AppColors> {
       arrowIconBg: arrowIconBg ?? this.arrowIconBg,
       arrowIconBorder: arrowIconBorder ?? this.arrowIconBorder,
       scaffoldBackground: scaffoldBackground ?? this.scaffoldBackground,
+      timeZoneContainerBorder:
+          timeZoneContainerBorder ?? this.timeZoneContainerBorder,
+      timeZoneContainerBg: timeZoneContainerBg ?? this.timeZoneContainerBg,
     );
   }
 
@@ -70,6 +83,8 @@ class AppColors extends ThemeExtension<AppColors> {
         arrowIconBg: Color(0xFFD4DEF1),
         arrowIconBorder: Color(0xFFD4DEF1),
         scaffoldBackground: Colors.white,
+        timeZoneContainerBorder: Colors.black,
+        timeZoneContainerBg: Colors.transparent,
       );
 
   factory AppColors.dark() => const AppColors(
@@ -81,5 +96,7 @@ class AppColors extends ThemeExtension<AppColors> {
         arrowIconBg: Color(0xFF293A89),
         arrowIconBorder: Color(0xFF293A89),
         scaffoldBackground: Color(0xFF002359),
+        timeZoneContainerBorder: Color(0xFF293A89),
+        timeZoneContainerBg: Color(0xFF293A89),
       );
 }

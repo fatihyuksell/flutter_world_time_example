@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
@@ -5,7 +6,7 @@ import 'package:dio/dio.dart';
 mixin DioClient {
   static Dio init({String? baseUrl}) {
     final BaseOptions baseOptions = BaseOptions(
-      baseUrl: baseUrl ?? 'http://worldtimeapi.org/api',
+      baseUrl: baseUrl ?? 'https://worldtimeapi.org/api',
       connectTimeout: const Duration(seconds: 30),
       receiveTimeout: const Duration(seconds: 30),
       headers: <String, String>{
@@ -31,7 +32,7 @@ mixin DioClient {
   ) async {
     // TODO: If the requests needs to have JWT token,
     // add the headers inside this block
-
+    log('request uri : ${options.uri}');
     handler.next(options);
   }
 

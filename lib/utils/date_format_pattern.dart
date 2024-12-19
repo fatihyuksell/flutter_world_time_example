@@ -10,4 +10,5 @@ class DateFormatPattern {
   static const String dayMonthYear = 'dd MMMM yyyy'; // 24 January 2021
   static const String dayMonthCommasDayName =
       'd MMMM, EEEE'; // 24 January, Monday
+  static const String dayName = 'EEEE'; // Sunday
 }

@@ -1,58 +1,55 @@
 import 'package:intl/intl.dart';
-import 'package:optimus_case/models/localization_strings.dart';
+import 'package:optimus_case/enums/app_locale.dart';
 import 'package:optimus_case/utils/date_format_pattern.dart';
-import 'package:optimus_case/utils/extensions.dart/int_extension.dart';
 
 extension DateTimeExtensions on DateTime {
-  String toFormattedDate() {
-    return '${day.asTwoDigits()}.${month.asTwoDigits()}.$year';
+  String toFormattedMonthDayYear() {
+    return DateFormat(
+            DateFormatPattern.dayMonthYear, AppLocale.dateFormatPattern)
+        .format(this);
+  }
+
+  String toFormattedTime() {
+    return DateFormat(DateFormatPattern.time, AppLocale.dateFormatPattern)
+        .format(this);
+  }
+
+  String toFormattedDayWithUtcOffset(String utcOffset) {
+    String dayName =
+        DateFormat(DateFormatPattern.dayName, AppLocale.dateFormatPattern)
+            .format(this);
+    String formattedOffset = _formatUtcOffset(utcOffset);
+    return "$dayName, GMT $formattedOffset";
   }
 
   String toFormattedDateTime() {
-    return '''${day.asTwoDigits()}.${month.asTwoDigits()}.$year, ${hour.asTwoDigits()}:${minute.asTwoDigits()}''';
+    return DateFormat(DateFormatPattern.dateTime, AppLocale.dateFormatPattern)
+        .format(this);
   }
 
   String toHumanReadableString() {
-    return '''${day.asTwoDigits()}.${month.asTwoDigits()}.$year ${hour.asTwoDigits()}:${minute.asTwoDigits()}:${second.asTwoDigits()}''';
-  }
-
-  String get toSocialDateTime {
-    final today = DateTime.now();
-
-    if (today.day == day && today.month == month && today.year == year) {
-      return '''${LocalizationStrings.today}, ${hour.asTwoDigits()}:${minute.asTwoDigits()}''';
-    } else if ((today.day - 1) == day &&
-        today.month == month &&
-        today.year == year) {
-      return '''${LocalizationStrings.yesterday}, ${hour.asTwoDigits()}:${minute.asTwoDigits()}''';
-    } else {
-      return DateFormat(DateFormatPattern.dateTime).format(this);
-    }
-  }
-
-  String get toSocialDate {
-    final today = DateTime.now();
-
-    if (today.day == day && today.month == month && today.year == year) {
-      return LocalizationStrings.today;
-    } else if ((today.day - 1) == day &&
-        today.month == month &&
-        today.year == year) {
-      return LocalizationStrings.yesterday;
-    } else {
-      return DateFormat(DateFormatPattern.date).format(this);
-    }
+    return DateFormat(DateFormatPattern.dateTime, AppLocale.dateFormatPattern)
+        .format(this);
   }
 
   DateTime addTimeZoneOffset() {
-    return add(
-      Duration(
-        seconds: DateTime.now().timeZoneOffset.inSeconds,
-      ),
-    );
+    return add(Duration(seconds: timeZoneOffset.inSeconds));
   }
 
   bool isSameDay(DateTime other) {
     return day == other.day && month == other.month && year == other.year;
+  }
+
+  // UTC offset formatlama: "+03:00" veya "-02:30"
+  String _formatUtcOffset(String utcOffset) {
+    if (!utcOffset.startsWith("+") && !utcOffset.startsWith("-")) {
+      utcOffset = "+$utcOffset";
+    }
+    return utcOffset;
+  }
+
+  // 2 basamağa tamamlar: 1 -> "01"
+  String asTwoDigits() {
+    return toString().padLeft(2, '0');
   }
 }

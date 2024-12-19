@@ -20,6 +20,9 @@ enum AppLocale {
     }
   }
 
+  static String get dateFormatPattern =>
+      "${AppLocale.tr.languageCode}-${AppLocale.tr.countryCode}";
+
   static List<Locale> get supportedLocales {
     return values.map((e) => Locale(e.languageCode, e.countryCode)).toList();
   }

@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 
 class TextStyles extends ThemeExtension<TextStyles> {
   final TextStyle regular;
+  final TextStyle regular2;
+  final TextStyle regular3;
+
   final TextStyle bold1;
   final TextStyle bold2;
   final TextStyle headline1;
@@ -10,9 +13,13 @@ class TextStyles extends ThemeExtension<TextStyles> {
   final TextStyle body2;
   final TextStyle caption;
   final TextStyle semiBold;
+  final TextStyle regionListText;
+  final TextStyle hoursAndMinuteText;
 
   const TextStyles({
     required this.regular,
+    required this.regular2,
+    required this.regular3,
     required this.bold1,
     required this.bold2,
     required this.headline1,
@@ -21,6 +28,8 @@ class TextStyles extends ThemeExtension<TextStyles> {
     required this.body2,
     required this.caption,
     required this.semiBold,
+    required this.regionListText,
+    required this.hoursAndMinuteText,
   });
 
   @override
@@ -31,6 +40,8 @@ class TextStyles extends ThemeExtension<TextStyles> {
     if (other is! TextStyles) return this;
     return TextStyles(
       regular: TextStyle.lerp(regular, other.regular, t)!,
+      regular2: TextStyle.lerp(regular2, other.regular2, t)!,
+      regular3: TextStyle.lerp(regular2, other.regular3, t)!,
       bold1: TextStyle.lerp(bold1, other.bold1, t)!,
       bold2: TextStyle.lerp(bold2, other.bold2, t)!,
       headline1: TextStyle.lerp(headline1, other.headline1, t)!,
@@ -39,12 +50,17 @@ class TextStyles extends ThemeExtension<TextStyles> {
       body2: TextStyle.lerp(body2, other.body2, t)!,
       caption: TextStyle.lerp(caption, other.caption, t)!,
       semiBold: TextStyle.lerp(semiBold, other.semiBold, t)!,
+      regionListText: TextStyle.lerp(regionListText, other.regionListText, t)!,
+      hoursAndMinuteText:
+          TextStyle.lerp(hoursAndMinuteText, other.hoursAndMinuteText, t)!,
     );
   }
 
   @override
   TextStyles copyWith({
     TextStyle? regular,
+    TextStyle? regular2,
+    TextStyle? regular3,
     TextStyle? bold1,
     TextStyle? bold2,
     TextStyle? headline1,
@@ -53,9 +69,13 @@ class TextStyles extends ThemeExtension<TextStyles> {
     TextStyle? body2,
     TextStyle? caption,
     TextStyle? semiBold,
+    TextStyle? regionListText,
+    TextStyle? hoursAndMinuteText,
   }) {
     return TextStyles(
       regular: regular ?? this.regular,
+      regular2: regular2 ?? this.regular2,
+      regular3: regular3 ?? this.regular3,
       bold1: bold1 ?? this.bold1,
       bold2: bold2 ?? this.bold2,
       headline1: headline1 ?? this.headline1,
@@ -64,6 +84,8 @@ class TextStyles extends ThemeExtension<TextStyles> {
       body2: body2 ?? this.body2,
       caption: caption ?? this.caption,
       semiBold: semiBold ?? this.semiBold,
+      regionListText: regionListText ?? this.regionListText,
+      hoursAndMinuteText: hoursAndMinuteText ?? this.hoursAndMinuteText,
     );
   }
 
@@ -71,6 +93,16 @@ class TextStyles extends ThemeExtension<TextStyles> {
         regular: TextStyle(
           fontSize: 16,
           fontWeight: FontWeight.w400,
+          color: Colors.black,
+        ),
+        regular2: TextStyle(
+          fontSize: 20,
+          fontWeight: FontWeight.w500,
+          color: Colors.black,
+        ),
+        regular3: TextStyle(
+          fontSize: 18,
+          fontWeight: FontWeight.w500,
           color: Colors.black,
         ),
         bold1: TextStyle(
@@ -110,6 +142,16 @@ class TextStyles extends ThemeExtension<TextStyles> {
         ),
         semiBold: TextStyle(
           fontSize: 16,
+          fontWeight: FontWeight.w600,
+          color: Colors.black,
+        ),
+        regionListText: TextStyle(
+          fontSize: 15,
+          fontWeight: FontWeight.w400,
+          color: Colors.black,
+        ),
+        hoursAndMinuteText: TextStyle(
+          fontSize: 80,
           fontWeight: FontWeight.w600,
           color: Colors.black,
         ),
@@ -121,6 +163,16 @@ class TextStyles extends ThemeExtension<TextStyles> {
           fontWeight: FontWeight.w400,
           color: Colors.white,
         ),
+        regular2: TextStyle(
+          fontSize: 20,
+          fontWeight: FontWeight.w500,
+          color: Colors.white,
+        ),
+        regular3: TextStyle(
+          fontSize: 18,
+          fontWeight: FontWeight.w500,
+          color: Colors.white,
+        ),
         bold1: TextStyle(
           fontSize: 18,
           fontWeight: FontWeight.w700,
@@ -154,10 +206,20 @@ class TextStyles extends ThemeExtension<TextStyles> {
         caption: TextStyle(
           fontSize: 12,
           fontWeight: FontWeight.w300,
-          color: Colors.grey,
+          color: Colors.white,
         ),
         semiBold: TextStyle(
           fontSize: 16,
+          fontWeight: FontWeight.w600,
+          color: Colors.white,
+        ),
+        regionListText: TextStyle(
+          fontSize: 15,
+          fontWeight: FontWeight.w400,
+          color: Colors.white,
+        ),
+        hoursAndMinuteText: TextStyle(
+          fontSize: 80,
           fontWeight: FontWeight.w600,
           color: Colors.white,
         ),

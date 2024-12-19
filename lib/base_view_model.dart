@@ -11,7 +11,6 @@ class BaseViewModel<VA> extends ChangeNotifier with InteractionMixin {
   bool mounted = false;
   bool _showLoading = false;
   bool _isDisposed = false;
-
   bool get isDisposed => _isDisposed;
 
   bool get showLoading => _showLoading;
@@ -63,7 +62,10 @@ class BaseViewModel<VA> extends ChangeNotifier with InteractionMixin {
     final bool showLoading = true,
     final bool showError = true,
   }) async {
-    this.showLoading = showLoading;
+    _flowCount++;
+    if (showLoading) {
+      this.showLoading = showLoading;
+    }
     isBusy = true;
     notify();
 
@@ -71,6 +73,8 @@ class BaseViewModel<VA> extends ChangeNotifier with InteractionMixin {
       final T data = await callback();
       onSuccess?.call(data);
     } on DioException catch (e, s) {
+      debugPrint(e.toString());
+      debugPrint(s.toString());
       onError?.call(s, e);
       _showGeneralErrorMessage(
         title: 'Error',
@@ -79,9 +83,7 @@ class BaseViewModel<VA> extends ChangeNotifier with InteractionMixin {
     } finally {
       _flowCount--;
 
-      if (_flowCount == 0) {
-        this.showLoading = false;
-      }
+      this.showLoading = false;
       isBusy = false;
       notify();
     }
@@ -100,12 +102,7 @@ class BaseViewModel<VA> extends ChangeNotifier with InteractionMixin {
     String? title,
   }) {
     Future.microtask(() {
-      Dialog.fullscreen(
-        backgroundColor: Colors.white,
-        insetAnimationDuration: const Duration(seconds: 1),
-        insetAnimationCurve: Curves.bounceIn,
-        child: Text('$title'),
-      );
+      debugPrint('ErroMessage');
     });
   }
 }

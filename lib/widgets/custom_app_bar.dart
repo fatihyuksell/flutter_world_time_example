@@ -1,19 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:optimus_case/utils/extensions.dart/theme_extension.dart';
 
-class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
+class CustomAppBar extends StatelessWidget {
   final Widget? leading;
   final Widget? trailing;
   final String? title;
   final double borderRadius;
   final Color backgroundColor;
+  final VoidCallback? onBackPressed;
+  final double? verticalPadding;
 
   const CustomAppBar({
     this.leading,
     this.trailing,
     this.title,
-    this.borderRadius = 16.0,
+    this.borderRadius = 32.0,
     this.backgroundColor = Colors.blue,
+    this.onBackPressed,
+    this.verticalPadding,
     super.key,
   });
 
@@ -31,37 +35,51 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       child: SafeArea(
         bottom: false,
         child: Container(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 24,
-            vertical: 50,
+          padding: EdgeInsets.only(
+            left: 24,
+            right: 24,
+            top: verticalPadding ?? 30,
+            bottom: verticalPadding ?? 50,
           ),
           constraints: const BoxConstraints(
             minHeight: 56,
           ),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          child: Stack(
+            alignment: Alignment.center,
             children: [
-              if (leading != null) leading! else const SizedBox.shrink(),
-              if (title != null)
-                Expanded(
-                  child: Center(
-                    child: Text(
-                      title ?? '',
-                      style: context.textStyles.regular.copyWith(
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  if (leading != null)
+                    leading!
+                  else if (ModalRoute.of(context)?.canPop ?? false)
+                    IconButton(
+                      onPressed: () => onBackPressed ?? Navigator.pop(context),
+                      splashRadius: 20,
+                      icon: Icon(
+                        Icons.arrow_back_rounded,
                         color: context.themeColors.text,
+                        size: 26,
                       ),
                     ),
+                  if (trailing != null) trailing! else const SizedBox.shrink(),
+                ],
+              ),
+              if (title != null)
+                Text(
+                  title!,
+                  style: context.textStyles.headline1.copyWith(
+                    color: context.themeColors.text,
                   ),
+                  textAlign: TextAlign.center,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
-              if (trailing != null) trailing! else const SizedBox.shrink(),
             ],
           ),
         ),
       ),
     );
   }
-
-  @override
-  Size get preferredSize => const Size.fromHeight(kTextTabBarHeight);
 }

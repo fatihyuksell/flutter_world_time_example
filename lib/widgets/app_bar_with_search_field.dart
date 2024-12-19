@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:optimus_case/utils/date_format_pattern.dart';
-import 'package:optimus_case/utils/extensions.dart/date_format_extension.dart';
 import 'package:optimus_case/utils/extensions.dart/theme_extension.dart';
 import 'package:optimus_case/widgets/custom_app_bar.dart';
 import 'package:optimus_case/widgets/ripple_theme_toggle.dart';
@@ -10,6 +9,7 @@ class AppBarWithSearch extends StatelessWidget {
   final String deviceName;
   final GlobalKey textFieldKey;
   final double textFieldHeight;
+
   const AppBarWithSearch({
     required this.deviceName,
     required this.textFieldKey,
@@ -36,17 +36,20 @@ class AppBarWithSearch extends StatelessWidget {
                       ),
                       const SizedBox(height: 10),
                       Text(
-                        DateFormat(DateFormatPattern.time).format(
+                        DateFormat(
+                          DateFormatPattern.time,
+                        ).format(
                           DateTime.now().toLocal(),
                         ),
                         style: context.textStyles.headline1,
                       ),
                       const SizedBox(height: 10),
                       Text(
-                        DateFormat(DateFormatPattern.dayMonthCommasDayName,
-                                'tr-TR')
-                            .format(
-                          DateTime.now().toLocal().addTimeZoneOffset(),
+                        DateFormat(
+                          DateFormatPattern.dayMonthCommasDayName,
+                          'tr-TR',
+                        ).format(
+                          DateTime.now().toLocal(),
                         ),
                         style: context.textStyles.semiBold,
                         maxLines: 1,
