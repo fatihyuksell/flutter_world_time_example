@@ -59,7 +59,10 @@ class _OptimusLogoState extends State<OptimusLogo>
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         AnimatedBuilder(
-          animation: Listenable.merge([_scaleController, _rotationController]),
+          animation: Listenable.merge([
+            _scaleController,
+            _rotationController,
+          ]),
           builder: (context, child) {
             return Transform.rotate(
               angle: _rotationAnimation.value,
@@ -78,7 +81,9 @@ class _OptimusLogoState extends State<OptimusLogo>
         ),
         Text(
           LocalizationStrings.optimusSoftware,
-          style: context.textStyles.bold2,
+          style: context.textStyles.bold2.copyWith(
+            color: Colors.white,
+          ),
         ),
       ],
     );

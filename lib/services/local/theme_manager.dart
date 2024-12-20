@@ -27,9 +27,6 @@ class ThemeManager extends ChangeNotifier {
     notifyListeners();
   }
 
-  ThemeData get currentTheme =>
-      _themeMode == ThemeMode.dark ? darkTheme : lightTheme;
-
   ThemeData get lightTheme => ThemeData(
         brightness: Brightness.light,
         primarySwatch: Colors.blue,

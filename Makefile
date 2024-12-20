@@ -1,8 +1,8 @@
 get:
-	fvm flutter pub get
+	flutter pub get
 
 clean:
-	fvm flutter clean
+	flutter clean
 
 clean-get:
 	$(MAKE) clean
@@ -12,7 +12,7 @@ cg:
 	$(MAKE) clean-get
 
 outdated:
-	fvm flutter pub outdated
+	flutter pub outdated
 
 gen:
-	fvm flutter pub run build_runner build --delete-conflicting-outputs
+	flutter pub run build_runner build --delete-conflicting-outputs

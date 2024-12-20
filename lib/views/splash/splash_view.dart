@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:optimus_case/scaffold_view.dart';
-import 'package:optimus_case/utils/extensions.dart/theme_extension.dart';
 import 'package:optimus_case/view_model_builder.dart';
 import 'package:optimus_case/views/splash/splash_view_model.dart';
 import 'package:optimus_case/widgets/connection_status_widget.dart';
@@ -15,7 +14,7 @@ class SplashView extends StatelessWidget {
       initViewModel: () => SplashViewModel(),
       builder: (context, viewModel) {
         return ScaffoldView(
-          backgroundColor: context.themeColors.scaffoldBackground,
+          backgroundColor: const Color(0xFF002359),
           body: Stack(
             alignment: Alignment.center,
             children: [
