@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:optimus_case/models/localization_strings.dart';
 import 'package:optimus_case/utils/date_format_pattern.dart';
 import 'package:optimus_case/utils/extensions.dart/theme_extension.dart';
 import 'package:optimus_case/widgets/custom_app_bar.dart';
@@ -9,11 +10,13 @@ class AppBarWithSearch extends StatelessWidget {
   final String deviceName;
   final GlobalKey textFieldKey;
   final double textFieldHeight;
+  final void Function(String) updateSearchQuery;
 
   const AppBarWithSearch({
     required this.deviceName,
     required this.textFieldKey,
     required this.textFieldHeight,
+    required this.updateSearchQuery,
     super.key,
   });
 
@@ -31,7 +34,7 @@ class AppBarWithSearch extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Günaydın, $deviceName',
+                        '${LocalizationStrings.gM}, $deviceName',
                         style: context.textStyles.semiBold,
                       ),
                       const SizedBox(height: 10),
@@ -63,18 +66,29 @@ class AppBarWithSearch extends StatelessWidget {
                 Positioned(
                   bottom: -(textFieldHeight / 2),
                   left: 16,
-                  right: 16,
+                  right: 26,
                   child: TextFormField(
                     key: textFieldKey,
+                    style: context.textStyles.body2.copyWith(
+                      color: Colors.black,
+                    ),
+                    onChanged: updateSearchQuery,
                     decoration: InputDecoration(
-                      hintText: 'Search',
-                      hintStyle: context.textStyles.regular.copyWith(
-                        color: context.themeColors.text.withOpacity(0.5),
+                      hintText: LocalizationStrings.search,
+                      hintStyle: context.textStyles.body2.copyWith(
+                        color: Colors.black,
                       ),
-                      prefixIcon: const Icon(Icons.search),
+                      prefixIcon: const Icon(
+                        Icons.search,
+                        color: Colors.black,
+                      ),
+                      labelStyle: context.textStyles.body2.copyWith(
+                        color: Colors.black,
+                      ),
                       filled: true,
+                      fillColor: Colors.white,
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(30),
                         borderSide: BorderSide.none,
                       ),
                     ),

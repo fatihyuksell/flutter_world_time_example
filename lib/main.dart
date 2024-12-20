@@ -79,5 +79,3 @@ class Optimus extends StatelessWidget {
     );
   }
 }
-
-//TODO: Interneti acik mi bunu kontrol edelim

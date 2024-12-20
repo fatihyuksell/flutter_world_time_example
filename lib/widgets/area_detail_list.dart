@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:optimus_case/utils/extensions.dart/theme_extension.dart';
-import 'package:optimus_case/views/clocks/area_detail_entity.dart';
+import 'package:optimus_case/views/time_zone_details/area_detail_entity.dart';
 
 class AreaDetailTexts extends StatelessWidget {
   final List<AreaDetailEntity> areaDetailTexts;

@@ -36,9 +36,19 @@ class ReusableTimeContainers extends StatelessWidget {
                     ),
                     borderRadius: BorderRadius.circular(16),
                   ),
-                  child: Text(
-                    times[timeIndex],
-                    style: context.textStyles.hoursAndMinuteText,
+                  child: AnimatedSwitcher(
+                    duration: const Duration(milliseconds: 500),
+                    transitionBuilder: (child, animation) {
+                      return FadeTransition(
+                        opacity: animation,
+                        child: child,
+                      );
+                    },
+                    child: Text(
+                      times[timeIndex],
+                      key: ValueKey(times[timeIndex]),
+                      style: context.textStyles.hoursAndMinuteText,
+                    ),
                   ),
                 ),
               );

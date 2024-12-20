@@ -28,8 +28,10 @@ dependencies:
   geocoding: ^3.0.0 # Geocoding API
   equatable: ^2.0.3 # Equatable objects are 
   flutter_svg: ^2.0.7 # SVG rendering
+  url_launcher: ^6.0.12 # URL launcher 
   cupertino_icons: ^1.0.8 # Cupertino icons
   device_info_plus: ^11.2.0 # Device information from OS
+  connectivity_plus: ^2.3.0 # Connectivity settings from device
   flutter_screenutil: ^5.9.0 # Responsive UI
   shared_preferences: ^2.2.2 # Basic local data storage
 
@@ -51,6 +53,7 @@ flutter:
 
   assets:
     - assets/back.svg
+    - assets/ic_optimus_logo.svg
   
   fonts:
       - family: Montserrat

@@ -64,7 +64,7 @@ class BaseViewModel<VA> extends ChangeNotifier with InteractionMixin {
   }) async {
     _flowCount++;
     if (showLoading) {
-      this.showLoading = showLoading;
+      this.showLoading = true;
     }
     isBusy = true;
     notify();
@@ -76,14 +76,18 @@ class BaseViewModel<VA> extends ChangeNotifier with InteractionMixin {
       debugPrint(e.toString());
       debugPrint(s.toString());
       onError?.call(s, e);
-      _showGeneralErrorMessage(
-        title: 'Error',
-        description: e.toString(),
-      );
+
+      if (showError) {
+        _showGeneralErrorMessage(
+          title: 'Error',
+          description: e.message ?? 'An unexpected error occurred.',
+        );
+      }
     } finally {
       _flowCount--;
-
-      this.showLoading = false;
+      if (_flowCount == 0) {
+        this.showLoading = false;
+      }
       isBusy = false;
       notify();
     }

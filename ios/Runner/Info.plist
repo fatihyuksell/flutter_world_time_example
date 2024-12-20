@@ -51,6 +51,7 @@
 	<string>Bu uygulama konum bilgilerinize erişmek istiyor.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>Bu uygulama konum bilgilerinize erişmek istiyor.</string>
+	
 
 </dict>
 </plist>

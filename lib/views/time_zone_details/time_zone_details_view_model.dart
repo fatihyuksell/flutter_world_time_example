@@ -4,18 +4,18 @@ import 'package:optimus_case/base_view_model.dart';
 import 'package:optimus_case/services/remote/models/time_zone_details_response.dart';
 import 'package:optimus_case/services/remote/services/time_information_service/time_information_service.dart';
 import 'package:optimus_case/utils/extensions.dart/date_format_extension.dart';
-import 'package:optimus_case/views/clocks/time_zone_seperator_entity.dart';
+import 'package:optimus_case/views/time_zone_details/time_zone_seperator_entity.dart';
 
-class ClocksViewModel extends BaseViewModel<String> {
+class TimeZoneDetailsViewModel extends BaseViewModel<String> {
   final TimeInformationService _timeInformationService;
 
-  ClocksViewModel(this._timeInformationService);
+  TimeZoneDetailsViewModel(this._timeInformationService);
 
   TimeZoneInfoResponse? timeZoneInfoResponse;
   DateTime? currentTime;
   Timer? _timer;
   bool isLoading = true;
-  bool hasError = false; // Flag to track errors
+  bool hasError = false;
 
   String get region => args;
 
@@ -54,7 +54,7 @@ class ClocksViewModel extends BaseViewModel<String> {
 
   Future<void> getRegionDetails() async {
     isLoading = true;
-    hasError = false; // Reset the error state
+    hasError = false;
     notifyListeners();
 
     try {
@@ -69,7 +69,7 @@ class ClocksViewModel extends BaseViewModel<String> {
 
       _startTimer();
     } catch (e) {
-      hasError = true; // If there's an error, update the error state
+      hasError = true;
     } finally {
       isLoading = false;
       notifyListeners();

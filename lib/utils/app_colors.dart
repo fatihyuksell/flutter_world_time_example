@@ -5,6 +5,8 @@ class AppColors extends ThemeExtension<AppColors> {
   final Color primary;
   final Color secondary;
   final Color background;
+  final Color green;
+  final Color red;
   final Color text;
   final Color arrowIconBg;
   final Color arrowIconBorder;
@@ -17,6 +19,8 @@ class AppColors extends ThemeExtension<AppColors> {
     required this.primary,
     required this.secondary,
     required this.background,
+    required this.green,
+    required this.red,
     required this.text,
     required this.arrowIconBg,
     required this.arrowIconBorder,
@@ -34,6 +38,8 @@ class AppColors extends ThemeExtension<AppColors> {
       primary: Color.lerp(primary, other.primary, t)!,
       secondary: Color.lerp(secondary, other.secondary, t)!,
       background: Color.lerp(background, other.background, t)!,
+      green: Color.lerp(background, other.green, t)!,
+      red: Color.lerp(background, other.red, t)!,
       text: Color.lerp(text, other.text, t)!,
       arrowIconBg: Color.lerp(arrowIconBg, other.arrowIconBg, t)!,
       arrowIconBorder: Color.lerp(arrowIconBorder, other.arrowIconBorder, t)!,
@@ -52,6 +58,8 @@ class AppColors extends ThemeExtension<AppColors> {
     Color? primary,
     Color? secondary,
     Color? background,
+    Color? green,
+    Color? red,
     Color? text,
     Color? arrowIconBg,
     Color? arrowIconBorder,
@@ -64,6 +72,8 @@ class AppColors extends ThemeExtension<AppColors> {
       primary: primary ?? this.primary,
       secondary: secondary ?? this.secondary,
       background: background ?? this.background,
+      green: green ?? this.green,
+      red: red ?? this.red,
       text: text ?? this.text,
       arrowIconBg: arrowIconBg ?? this.arrowIconBg,
       arrowIconBorder: arrowIconBorder ?? this.arrowIconBorder,
@@ -79,6 +89,8 @@ class AppColors extends ThemeExtension<AppColors> {
         primary: Colors.white,
         secondary: Colors.lightBlueAccent,
         background: Colors.white,
+        green: Color.fromARGB(255, 54, 149, 59),
+        red: Color.fromARGB(255, 126, 26, 26),
         text: Colors.black,
         arrowIconBg: Color(0xFFD4DEF1),
         arrowIconBorder: Color(0xFFD4DEF1),
@@ -92,6 +104,8 @@ class AppColors extends ThemeExtension<AppColors> {
         primary: Colors.deepPurple,
         secondary: Colors.purpleAccent,
         background: Colors.black,
+        green: Color.fromARGB(255, 119, 188, 122),
+        red: Color.fromARGB(255, 255, 45, 45),
         text: Colors.white,
         arrowIconBg: Color(0xFF293A89),
         arrowIconBorder: Color(0xFF293A89),

@@ -4,7 +4,6 @@ class TextStyles extends ThemeExtension<TextStyles> {
   final TextStyle regular;
   final TextStyle regular2;
   final TextStyle regular3;
-
   final TextStyle bold1;
   final TextStyle bold2;
   final TextStyle headline1;
