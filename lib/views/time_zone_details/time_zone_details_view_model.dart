@@ -15,13 +15,24 @@ class TimeZoneDetailsViewModel extends BaseViewModel<String> {
   DateTime? currentTime;
   Timer? _timer;
   bool isLoading = true;
-  bool hasError = false;
+  bool _isDisposed = false;
+  Duration oneSecond = const Duration(seconds: 1);
 
   String get region => args;
 
-  TimeZoneSeperatorEntity get timeZoneSeperatorEntity {
+  TimeZoneSeperatorEntity? get timeZoneSeperatorEntity {
     final parts = region.split('/');
-    return TimeZoneSeperatorEntity(area: parts[0], region: parts[1]);
+    if (!region.contains('/')) {
+      return TimeZoneSeperatorEntity(
+        area: parts[0],
+        region: '',
+      );
+    }
+
+    return TimeZoneSeperatorEntity(
+      area: parts[0],
+      region: parts[1],
+    );
   }
 
   List<String> get containerTimes => [
@@ -44,6 +55,7 @@ class TimeZoneDetailsViewModel extends BaseViewModel<String> {
 
   @override
   void dispose() {
+    _isDisposed = true;
     _timer?.cancel();
     super.dispose();
   }
@@ -54,26 +66,29 @@ class TimeZoneDetailsViewModel extends BaseViewModel<String> {
 
   Future<void> getRegionDetails() async {
     isLoading = true;
-    hasError = false;
-    notifyListeners();
+    await flow(
+      () async {
+        if (_isDisposed) return;
 
-    try {
-      final response = await _timeInformationService.getTimeZoneSeperatorEntity(
-          region: region);
+        final response =
+            await _timeInformationService.getTimeZoneSeperatorEntity(
+          region: region,
+        );
 
-      timeZoneInfoResponse = response;
+        if (_isDisposed) return;
 
-      final parsedTime = DateTime.parse(response.datetime);
-      final offset = _parseUtcOffset(response.utcOffset);
-      currentTime = parsedTime.add(offset);
+        timeZoneInfoResponse = response;
 
-      _startTimer();
-    } catch (e) {
-      hasError = true;
-    } finally {
-      isLoading = false;
-      notifyListeners();
-    }
+        final parsedTime = DateTime.parse(response.datetime);
+        final offset = _parseUtcOffset(response.utcOffset);
+        currentTime = parsedTime.add(offset);
+
+        _startTimer();
+      },
+      showLoading: false,
+      stopOnError: false,
+    );
+    isLoading = false;
   }
 
   Duration _parseUtcOffset(String offsetString) {
@@ -86,8 +101,9 @@ class TimeZoneDetailsViewModel extends BaseViewModel<String> {
 
   void _startTimer() {
     if (currentTime != null) {
-      _timer = Timer.periodic(const Duration(seconds: 1), (_) {
-        currentTime = currentTime!.add(const Duration(seconds: 1));
+      _timer = Timer.periodic(oneSecond, (_) {
+        if (_isDisposed) return;
+        currentTime = currentTime!.add(oneSecond);
         notifyListeners();
       });
     }

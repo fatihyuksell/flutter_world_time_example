@@ -43,38 +43,46 @@ class _RippleThemeToggleState extends State<RippleThemeToggle>
   Widget build(BuildContext context) {
     return Consumer<ThemeManager>(
       builder: (context, themeManager, child) {
-        return ScaleTransition(
-          scale: _rippleAnimation,
-          child: InkWell(
-            onTap: () async {
-              await _toggleMode(themeManager);
-            },
-            customBorder: const CircleBorder(),
-            splashColor: Colors.transparent,
-            highlightColor: Colors.transparent,
-            child: AnimatedContainer(
-              duration: const Duration(milliseconds: 600),
-              curve: Curves.easeInOut,
-              width: 30,
-              height: 30,
-              decoration: BoxDecoration(
-                color: themeManager.isDarkMode ? Colors.white : Colors.black,
-                shape: BoxShape.circle,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.shade400,
-                    blurRadius: 5,
-                    spreadRadius: 5,
+        return Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(width: 16),
+            ScaleTransition(
+              scale: _rippleAnimation,
+              child: InkWell(
+                onTap: () async {
+                  await _toggleMode(themeManager);
+                },
+                customBorder: const CircleBorder(),
+                splashColor: Colors.transparent,
+                highlightColor: Colors.transparent,
+                child: AnimatedContainer(
+                  duration: const Duration(milliseconds: 600),
+                  curve: Curves.easeInOut,
+                  width: 30,
+                  height: 30,
+                  decoration: BoxDecoration(
+                    color:
+                        themeManager.isDarkMode ? Colors.white : Colors.black,
+                    shape: BoxShape.circle,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.shade400,
+                        blurRadius: 5,
+                        spreadRadius: 5,
+                      ),
+                    ],
                   ),
-                ],
-              ),
-              child: Icon(
-                themeManager.isDarkMode ? Icons.wb_sunny : Icons.dark_mode,
-                color: themeManager.isDarkMode ? Colors.amber : Colors.white,
-                size: 20,
+                  child: Icon(
+                    themeManager.isDarkMode ? Icons.wb_sunny : Icons.dark_mode,
+                    color:
+                        themeManager.isDarkMode ? Colors.amber : Colors.white,
+                    size: 20,
+                  ),
+                ),
               ),
             ),
-          ),
+          ],
         );
       },
     );

@@ -8,15 +8,21 @@ import 'package:optimus_case/widgets/ripple_theme_toggle.dart';
 
 class AppBarWithSearch extends StatelessWidget {
   final String deviceName;
-  final GlobalKey textFieldKey;
+  final GlobalKey tutorialForNameKey;
+  final TextEditingController searchController;
   final double textFieldHeight;
+  final bool enabled;
   final void Function(String) updateSearchQuery;
+  final void Function(String) onPressedChangedUsername;
 
   const AppBarWithSearch({
+    required this.tutorialForNameKey,
     required this.deviceName,
-    required this.textFieldKey,
+    required this.searchController,
     required this.textFieldHeight,
+    required this.enabled,
     required this.updateSearchQuery,
+    required this.onPressedChangedUsername,
     super.key,
   });
 
@@ -30,35 +36,46 @@ class AppBarWithSearch extends StatelessWidget {
               clipBehavior: Clip.none,
               children: [
                 CustomAppBar(
-                  leading: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        '${LocalizationStrings.gM}, $deviceName',
-                        style: context.textStyles.semiBold,
-                      ),
-                      const SizedBox(height: 10),
-                      Text(
-                        DateFormat(
-                          DateFormatPattern.time,
-                        ).format(
-                          DateTime.now().toLocal(),
+                  leading: Expanded(
+                    child: Column(
+                      key: tutorialForNameKey,
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        GestureDetector(
+                          onTap: () => onPressedChangedUsername(deviceName),
+                          child: Text(
+                            '${LocalizationStrings.gM}, $deviceName',
+                            style: context.textStyles.semiBold,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
                         ),
-                        style: context.textStyles.headline1,
-                      ),
-                      const SizedBox(height: 10),
-                      Text(
-                        DateFormat(
-                          DateFormatPattern.dayMonthCommasDayName,
-                          'tr-TR',
-                        ).format(
-                          DateTime.now().toLocal(),
+                        const SizedBox(height: 10),
+                        Text(
+                          DateFormat(
+                            DateFormatPattern.time,
+                          ).format(
+                            DateTime.now().toLocal(),
+                          ),
+                          style: context.textStyles.headline1,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                         ),
-                        style: context.textStyles.semiBold,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ],
+                        const SizedBox(height: 10),
+                        Text(
+                          DateFormat(
+                            DateFormatPattern.dayMonthCommasDayName,
+                            'tr-TR',
+                          ).format(
+                            DateTime.now().toLocal(),
+                          ),
+                          style: context.textStyles.semiBold,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
+                    ),
                   ),
                   trailing: const RippleThemeToggle(),
                   borderRadius: 24,
@@ -68,7 +85,8 @@ class AppBarWithSearch extends StatelessWidget {
                   left: 16,
                   right: 26,
                   child: TextFormField(
-                    key: textFieldKey,
+                    enabled: enabled,
+                    controller: searchController,
                     style: context.textStyles.body2.copyWith(
                       color: Colors.black,
                     ),
@@ -86,7 +104,8 @@ class AppBarWithSearch extends StatelessWidget {
                         color: Colors.black,
                       ),
                       filled: true,
-                      fillColor: Colors.white,
+                      fillColor:
+                          enabled ? Colors.white : const Color(0xFF687181),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(30),
                         borderSide: BorderSide.none,

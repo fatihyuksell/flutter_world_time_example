@@ -1,6 +1,8 @@
 enum SharedConstants {
   languageCode('languageCode'),
-  themeMode('themeMode');
+  themeMode('themeMode'),
+  deviceName('deviceName'),
+  isTutorialShown('isTutorialShown');
 
   final String value;
 

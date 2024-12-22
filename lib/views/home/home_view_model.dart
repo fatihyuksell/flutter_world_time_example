@@ -1,52 +1,64 @@
-import 'dart:io';
-
-import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:optimus_case/base_view_model.dart';
+import 'package:optimus_case/enums/shared_constants.dart';
+import 'package:optimus_case/models/localization_strings.dart';
 import 'package:optimus_case/routes/static_routes.dart';
+import 'package:optimus_case/services/local/shared_preferences_manager.dart';
 import 'package:optimus_case/services/local/theme_manager.dart';
 import 'package:optimus_case/services/remote/services/time_information_service/time_information_service.dart';
+import 'package:optimus_case/utils/args/dialog_args.dart';
+import 'package:optimus_case/utils/args/dialog_result.dart';
+import 'package:optimus_case/utils/tutorial_target_widget.dart';
+import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 
 class HomeViewModel extends BaseViewModel {
+  //DEPENDENCY INJECTION PART
   final ThemeManager _themeManager;
   final TimeInformationService _timeInformationService;
+  final SharedPreferenceManager _sharedPreferenceManager;
 
-  HomeViewModel(this._themeManager, this._timeInformationService);
+  HomeViewModel(this._themeManager, this._timeInformationService,
+      this._sharedPreferenceManager);
+  ThemeMode get themeMode => _themeManager.themeMode;
+  //DEPENDENCY INJECTION PART
+
+  //TUTORIALS KEY
+  final GlobalKey searchKey = GlobalKey();
+  final GlobalKey listKey = GlobalKey();
+  final GlobalKey searchBarTitle = GlobalKey();
+  late TutorialCoachMark tutorialCoachMark;
+  //TUTORIALS KEY
+
+  //SEARCHBAR NECESSITIES
+  final TextEditingController _searchController = TextEditingController();
+  TextEditingController get searchController => _searchController;
 
   final GlobalKey textFieldKey = GlobalKey();
-
-  ThemeMode get themeMode => _themeManager.themeMode;
-  String get searchQuery => _searchQuery;
-  String get deviceName => _deviceName;
-  List<String> get filteredRegionList {
-    if (_searchQuery.isNotEmpty && _filteredRegionList.isEmpty) {
-      return [];
-    }
-    return _filteredRegionList.isEmpty ? regionList : _filteredRegionList;
-  }
-
-  bool isLoading = true;
-  String _deviceName = '';
   double textFieldHeight = 48.0;
   List<String> regionList = [];
-  String _searchQuery = '';
   List<String> _filteredRegionList = [];
 
-  void updateSearchQuery(String query) {
-    _searchQuery = query;
-    _filteredRegionList = regionList
-        .where((region) => region.toLowerCase().contains(query.toLowerCase()))
-        .toList();
-    notify();
-  }
-
   set deviceName(String value) {
-    _deviceName = value;
+    _deviceName.text = value;
     notify();
   }
+  //SEARCHBAR NECESSITIES
+
+  bool isLoading = false;
+  bool isSearchEmpty = false;
+
+  //DIALOG TEXTS USERNAME OR OPTIMUS DEVELOPER DEFAULT
+  String get deviceName =>
+      _sharedPreferenceManager.get(SharedConstants.deviceName.value) ??
+      _deviceName.text;
+  final TextEditingController _deviceName = TextEditingController();
+  //DIALOG TEXTS USERNAME OR OPTIMUS DEVELOPER DEFAULT
 
   @override
   void onBindingCreated() async {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await takeNameAndShowDialog();
+    });
     await init();
     await calculateTextFieldHeight();
     _filteredRegionList = regionList;
@@ -54,7 +66,94 @@ class HomeViewModel extends BaseViewModel {
 
   Future<void> init() async {
     await getRegionDetails();
-    await getDeviceInfo();
+  }
+
+  List<String> get filteredRegionList {
+    if (searchController.text.isNotEmpty && _filteredRegionList.isEmpty) {
+      return [];
+    }
+    return _filteredRegionList.isEmpty ? regionList : _filteredRegionList;
+  }
+
+  void updateSearchQuery(String text) {
+    final query = searchController.text;
+    _filteredRegionList = regionList
+        .where((region) => region.toLowerCase().contains(query.toLowerCase()))
+        .toList();
+
+    isSearchEmpty = _filteredRegionList.isEmpty;
+    notify();
+  }
+
+  void onPressedChangedUsername(String username) {
+    takeNameAndShowDialog(username: username);
+  }
+
+  Future<void> takeNameAndShowDialog({String? username}) async {
+    final storedDeviceName = _sharedPreferenceManager.get<String>(
+          SharedConstants.deviceName.value,
+        ) ??
+        LocalizationStrings.optimusDeveloper;
+
+    final initialDeviceName = username ?? storedDeviceName;
+
+    final tempController = TextEditingController(text: initialDeviceName);
+
+    await dialog<DialogResult>(
+      DialogArgs.takeTheUsername(initialDeviceName, tempController),
+    ).then((value) async {
+      if (value == null || !value.isConfirmed) {
+        return;
+      }
+      final newDeviceName = tempController.text.isNotEmpty
+          ? tempController.text
+          : LocalizationStrings.optimusDeveloper;
+
+      await _sharedPreferenceManager.set(
+        SharedConstants.deviceName.value,
+        newDeviceName,
+      );
+      _deviceName.text = newDeviceName;
+
+      final isTutorialShown = _sharedPreferenceManager
+              .get<bool>(SharedConstants.isTutorialShown.value) ??
+          false;
+
+      if (isTutorialShown) {
+        WidgetsBinding.instance.addPostFrameCallback((_) async {
+          await showTutorial();
+        });
+      }
+    });
+    notify();
+  }
+
+  Future<void> showTutorial() async {
+    tutorial(
+      [
+        TutorialTargetFocus.createTargetFocus(
+          identify: "SearchBar",
+          keyTarget: searchKey,
+          themeManager: _themeManager,
+          title: LocalizationStrings.devicePersonalInfos,
+          description:
+              LocalizationStrings.devicePersonalInfoDesc(_deviceName.text),
+          align: ContentAlign.bottom,
+        ),
+        TutorialTargetFocus.createTargetFocus(
+          identify: "AnotherTarget",
+          keyTarget: listKey,
+          themeManager: _themeManager,
+          title: LocalizationStrings.anotherFeature,
+          description: LocalizationStrings.anotherFeatureDescription,
+          align: ContentAlign.top,
+        ),
+      ],
+    );
+    await _sharedPreferenceManager.set(
+      SharedConstants.isTutorialShown.value,
+      true,
+    );
   }
 
   Future<void> toggleTheme(ThemeMode mode) async {
@@ -75,25 +174,15 @@ class HomeViewModel extends BaseViewModel {
         } else {
           regionList.clear();
         }
+        _filteredRegionList = regionList;
+        isLoading = false;
         debugPrint('$response');
       },
+      stopOnError: false,
+      showLoading: false,
     );
 
-    isLoading = false;
     notify();
-  }
-
-  Future<void> getDeviceInfo() async {
-    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
-    if (Platform.isAndroid) {
-      AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
-      deviceName = androidInfo.model;
-    } else if (Platform.isIOS) {
-      IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
-      deviceName = iosInfo.model;
-    } else {
-      deviceName = '';
-    }
   }
 
   Future<void> calculateTextFieldHeight() async {
@@ -111,13 +200,19 @@ class HomeViewModel extends BaseViewModel {
   }
 
   Future<void> onPageRefreshed() async {
-    isLoading = true;
+    searchController.clear();
+    _filteredRegionList = regionList;
     notify();
 
     regionList.clear();
     await init();
-
-    isLoading = false;
     notify();
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    _deviceName.dispose();
+    super.dispose();
   }
 }
