@@ -9,7 +9,7 @@ import 'package:optimus_case/utils/locator.dart';
 import 'package:optimus_case/view_model_builder.dart';
 import 'package:optimus_case/views/home/home_view_model.dart';
 import 'package:optimus_case/widgets/app_bar_with_search_field.dart';
-import 'package:optimus_case/widgets/countr_list_shimmer_widget.dart';
+import 'package:optimus_case/widgets/country_list_shimmer_widget.dart';
 import 'package:optimus_case/widgets/country_list_item.dart';
 
 class HomeView extends StatelessWidget {
