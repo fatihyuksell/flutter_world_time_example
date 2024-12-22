@@ -119,7 +119,7 @@ class HomeViewModel extends BaseViewModel {
               .get<bool>(SharedConstants.isTutorialShown.value) ??
           false;
 
-      if (isTutorialShown) {
+      if (!isTutorialShown) {
         WidgetsBinding.instance.addPostFrameCallback((_) async {
           await showTutorial();
         });
