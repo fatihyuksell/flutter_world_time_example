@@ -13,6 +13,7 @@ class AppColors extends ThemeExtension<AppColors> {
   final Color scaffoldBackground;
   final Color timeZoneContainerBorder;
   final Color timeZoneContainerBg;
+  final Color timeZoneShimmerColor;
 
   const AppColors({
     required this.appBarBg,
@@ -27,6 +28,7 @@ class AppColors extends ThemeExtension<AppColors> {
     required this.scaffoldBackground,
     required this.timeZoneContainerBorder,
     required this.timeZoneContainerBg,
+    required this.timeZoneShimmerColor,
   });
 
   @override
@@ -49,6 +51,8 @@ class AppColors extends ThemeExtension<AppColors> {
           timeZoneContainerBorder, other.timeZoneContainerBorder, t)!,
       timeZoneContainerBg:
           Color.lerp(timeZoneContainerBg, other.timeZoneContainerBg, t)!,
+      timeZoneShimmerColor:
+          Color.lerp(timeZoneShimmerColor, other.timeZoneShimmerColor, t)!,
     );
   }
 
@@ -66,6 +70,7 @@ class AppColors extends ThemeExtension<AppColors> {
     Color? scaffoldBackground,
     Color? timeZoneContainerBorder,
     Color? timeZoneContainerBg,
+    Color? timeZoneShimmerColor,
   }) {
     return AppColors(
       appBarBg: appBarBg ?? this.appBarBg,
@@ -81,6 +86,7 @@ class AppColors extends ThemeExtension<AppColors> {
       timeZoneContainerBorder:
           timeZoneContainerBorder ?? this.timeZoneContainerBorder,
       timeZoneContainerBg: timeZoneContainerBg ?? this.timeZoneContainerBg,
+      timeZoneShimmerColor: timeZoneShimmerColor ?? this.timeZoneShimmerColor,
     );
   }
 
@@ -97,6 +103,7 @@ class AppColors extends ThemeExtension<AppColors> {
         scaffoldBackground: Colors.white,
         timeZoneContainerBorder: Colors.black,
         timeZoneContainerBg: Colors.transparent,
+        timeZoneShimmerColor: Colors.black,
       );
 
   factory AppColors.dark() => const AppColors(
@@ -112,5 +119,6 @@ class AppColors extends ThemeExtension<AppColors> {
         scaffoldBackground: Color(0xFF002359),
         timeZoneContainerBorder: Color(0xFF293A89),
         timeZoneContainerBg: Color(0xFF293A89),
+        timeZoneShimmerColor: Color(0xFF293A89),
       );
 }

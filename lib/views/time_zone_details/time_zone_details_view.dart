@@ -30,72 +30,45 @@ class TimeZoneDetailsView extends StatelessWidget {
                 title: LocalizationStrings.worldTime.toUpperCase(),
               ),
               const SizedBox(height: 50),
-              if (viewModel.isLoading)
-                const CircularProgressIndicator.adaptive(),
-              if (viewModel.hasError)
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        LocalizationStrings.failedToLoadData,
-                        style: context.textStyles.regular3,
-                        textAlign: TextAlign.center,
+              Center(
+                child: Column(
+                  children: [
+                    ReusableTimeContainers(
+                      times: viewModel.containerTimes,
+                      isLoading: viewModel.isLoading,
+                    ),
+                    Container(
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: context.themeColors.scaffoldBackground,
+                        borderRadius: BorderRadius.circular(16),
                       ),
-                      const SizedBox(height: 16),
-                      ElevatedButton(
-                        onPressed: viewModel.getRegionDetails,
-                        child: Text(
-                          LocalizationStrings.refresh,
-                          style: context.textStyles.body1,
-                        ),
+                      child: AreaDetailTexts(
+                        areaDetailTexts: [
+                          AreaDetailEntity(
+                            content: viewModel.timeZoneSeperatorEntity!.region
+                                .toUpperCase(),
+                            contentStyle: context.textStyles.headline2,
+                          ),
+                          AreaDetailEntity(
+                            content: viewModel.timeZoneSeperatorEntity!.area
+                                .toUpperCase(),
+                            contentStyle: context.textStyles.regular2,
+                          ),
+                          AreaDetailEntity(
+                            content: viewModel.dayWithUtcOffset ?? '',
+                            contentStyle: context.textStyles.regular3,
+                          ),
+                          AreaDetailEntity(
+                            content: viewModel.monthDayYear ?? '',
+                            contentStyle: context.textStyles.regular3,
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-              if (!viewModel.isLoading &&
-                  !viewModel.hasError &&
-                  viewModel.currentTime != null)
-                Center(
-                  child: Column(
-                    children: [
-                      ReusableTimeContainers(
-                        times: viewModel.containerTimes,
-                      ),
-                      Container(
-                        padding: const EdgeInsets.all(16),
-                        decoration: BoxDecoration(
-                          color: context.themeColors.scaffoldBackground,
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-                        child: AreaDetailTexts(
-                          areaDetailTexts: [
-                            AreaDetailEntity(
-                              content: viewModel.timeZoneSeperatorEntity.region
-                                  .toUpperCase(),
-                              contentStyle: context.textStyles.headline2,
-                            ),
-                            AreaDetailEntity(
-                              content: viewModel.timeZoneSeperatorEntity.area
-                                  .toUpperCase(),
-                              contentStyle: context.textStyles.regular2,
-                            ),
-                            AreaDetailEntity(
-                              content: viewModel.dayWithUtcOffset ?? '',
-                              contentStyle: context.textStyles.regular3,
-                            ),
-                            AreaDetailEntity(
-                              content: viewModel.monthDayYear ?? '',
-                              contentStyle: context.textStyles.regular3,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+              ),
             ],
           ),
         ),

@@ -3,23 +3,30 @@ import 'package:optimus_case/app_repository.dart';
 import 'package:optimus_case/base_view_model.dart';
 import 'package:optimus_case/interaction_mixin.dart';
 import 'package:optimus_case/navigator_util.dart';
+import 'package:optimus_case/utils/args/dialog_args.dart';
+import 'package:optimus_case/utils/dialog_util.dart';
 import 'package:optimus_case/utils/locator.dart';
+import 'package:optimus_case/utils/tutorial_util.dart';
 import 'package:provider/provider.dart';
+import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 
 class ViewModelBuilder<T extends ChangeNotifier> extends StatefulWidget {
   const ViewModelBuilder({
     required this.initViewModel,
     required this.builder,
+    this.onAfterViewModelInit,
     super.key,
   }) : reactive = true;
 
   final T Function() initViewModel;
   final Widget Function(BuildContext context, T value) builder;
   final bool reactive;
+  final Function(BuildContext context, T value)? onAfterViewModelInit;
 
   const ViewModelBuilder.nonReactive({
     required this.initViewModel,
     required this.builder,
+    this.onAfterViewModelInit,
     super.key,
   }) : reactive = false;
 
@@ -45,6 +52,8 @@ class _ViewModelBuilder<T extends ChangeNotifier>
         interactionMixin.canPop = _canPop;
         interactionMixin.loadingOverlay = _loading;
         interactionMixin.theme = Theme.of(context);
+        interactionMixin.dialog = _dialog;
+        interactionMixin.tutorial = _tutorial;
       }
 
       if (viewModel is BaseViewModel) {
@@ -78,6 +87,19 @@ class _ViewModelBuilder<T extends ChangeNotifier>
       clearStack: clearStack,
       root: rootNavigator,
     );
+  }
+
+  Future<TutorialCoachMark> _tutorial<R extends Object?>(
+    final List<TargetFocus> targets,
+  ) async {
+    return TutorialCoachMarkUtil.instance.showTutorial(
+      context: context,
+      targets: targets,
+    );
+  }
+
+  Future<R?> _dialog<R extends Object?>(final DialogArgs args) {
+    return DialogUtil.instance.dialog<R>(context, args);
   }
 
   void _pop<R extends Object?>({R? result, final bool rootNavigator = false}) {
