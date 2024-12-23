@@ -77,3 +77,5 @@ In this README:
 3. I’ve included sections for dependencies, setup instructions, and contribution guidelines.
 
 This should provide a solid foundation for the README of your project!
+
+⚠️ **Uyarı:** Due to irregular operation of worldtimeapi, a new request mechanism has been established.
