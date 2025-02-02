@@ -1,4 +1,4 @@
-# Optimus App
+# World Time App
 
 A Flutter application that integrates theme management, splash screen, connectivity check, dynamic home screen, and time zone data retrieval using Retrofit.
 
